@@ -1,22 +1,33 @@
 const express = require('express');
 const morgan = require('morgan');
+const cors = require('cors');
+
 const app = express();
 
-const { PORT } = require('./config');
+const { PORT, CLIENT_ORIGIN } = require('./config');
 
 var visits = 0;
+app.use(
+    cors({
+        origin: CLIENT_ORIGIN
+    })
+);
 
 app.use(morgan('dev'));
 
 app.get('/', (req, res, next) => {
-    console.log('blah');
-    res.send('Hello world!').status(200);
+    res.send({ hello: 'world' });
+});
+
+app.get('/get', (req, res, next) => {
+    res.send({
+        testKey: 'test value'
+    });
 });
 
 function runServer(port = PORT) {
     const server = app
         .listen(port, () => {
-            console.info(`App listening on port ${server.address().port}`);
             console.info(`App listening on port ${server.address().port}`);
         })
         .on('error', err => {

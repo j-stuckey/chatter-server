@@ -1,7 +1,12 @@
 version: '3'
 services:
     server:
-        build: ./
+        build: .
         command: npm start
         ports:
-            - '8080:8080'
+            - '8000:8000'
+        volumes:
+            - .:/usr/src/app
+            - /usr/src/app/node_modules
+        environment:
+            - PORT=8000
