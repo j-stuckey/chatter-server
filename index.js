@@ -10,20 +10,21 @@ const app = express();
 
 const { PORT, CLIENT_ORIGIN } = require('./config');
 
-var visits = 0;
 app.use(
     cors({
         origin: CLIENT_ORIGIN
     })
 );
 
-app.use(morgan('dev'));
+app.use(
+    morgan(process.env.NODE_ENV === 'production' ? 'common' : 'dev', {
+        skip: (req, res) => process.env.NODE_ENV === 'test'
+    })
+);
 
 app.get('/', (req, res, next) => {
     res.send({ hello: 'world' });
 });
-
-
 
 function runServer(port = PORT) {
     const server = app
