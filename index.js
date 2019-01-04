@@ -6,9 +6,16 @@ const passport = require('passport');
 const localStrategy = require('./passport/local');
 const jwtStrategy = require('./passport/jwt');
 
+const usersRouter = require('./routes/users');
+const authRouter = require('./routes/auth');
+
 const app = express();
 
 const { PORT, CLIENT_ORIGIN } = require('./config');
+const { dbConnect } = require('./db-mongoose');
+
+// Parsing request body
+app.use(express.json());
 
 app.use(
     cors({
@@ -22,8 +29,25 @@ app.use(
     })
 );
 
-app.get('/', (req, res, next) => {
-    res.send({ hello: 'world' });
+app.use('/api/users', usersRouter);
+app.use('/api/auth', authRouter);
+
+// Custom 404 Not Found route handler
+app.use((req, res, next) => {
+    const err = new Error('Not Found');
+    err.status = 404;
+    next(err);
+});
+
+// Custom Error Handler
+app.use((err, req, res, next) => {
+    if (err.status) {
+        const errBody = Object.assign({}, err, { message: err.message });
+        res.status(err.status).json(errBody);
+    } else {
+        console.error(err);
+        res.status(500).json({ message: 'Internal Server Error' });
+    }
 });
 
 function runServer(port = PORT) {
@@ -37,4 +61,9 @@ function runServer(port = PORT) {
         });
 }
 
-runServer();
+if (require.main === module) {
+    dbConnect();
+    runServer();
+}
+
+module.exports = { app };

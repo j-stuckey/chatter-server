@@ -17,8 +17,6 @@ function createAuthToken(user) {
         subject: user.username.toLowerCase(),
         expiresIn: JWT_EXPIRY
     });
-
-    // creates an authToken with user payload
 }
 
 router.post('/login', localAuth, (req, res, next) => {
