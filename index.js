@@ -2,6 +2,10 @@ const express = require('express');
 const morgan = require('morgan');
 const cors = require('cors');
 
+const passport = require('passport');
+const localStrategy = require('./passport/local');
+const jwtStrategy = require('./passport/jwt');
+
 const app = express();
 
 const { PORT, CLIENT_ORIGIN } = require('./config');
