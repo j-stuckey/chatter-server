@@ -23,11 +23,7 @@ app.get('/', (req, res, next) => {
     res.send({ hello: 'world' });
 });
 
-app.get('/get', (req, res, next) => {
-    res.send({
-        testKey: 'test value'
-    });
-});
+
 
 function runServer(port = PORT) {
     const server = app
