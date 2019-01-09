@@ -14,6 +14,10 @@ const app = express();
 const { PORT, CLIENT_ORIGIN } = require('./config');
 const { dbConnect } = require('./db-mongoose');
 
+// Configures pasport to use the Strategies
+passport.use(localStrategy);
+passport.use(jwtStrategy);
+
 // Parsing request body
 app.use(express.json());
 
