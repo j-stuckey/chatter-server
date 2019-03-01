@@ -6,6 +6,7 @@ WORKDIR /usr/src/app
 # Copy the current directory contents into the container at /app
 COPY . /usr/src/app
 
-RUN npm install
-
 EXPOSE 8000
+
+RUN npm install
+RUN npm start

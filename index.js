@@ -36,6 +36,10 @@ app.use(
 app.use('/api/users', usersRouter);
 app.use('/api/auth', authRouter);
 
+app.get('/status', function(req, res){
+    res.sendFile('./public/index.html', {root: __dirname});
+});
+
 // Custom 404 Not Found route handler
 app.use((req, res, next) => {
     const err = new Error('Not Found');
@@ -66,7 +70,7 @@ function runServer(port = PORT) {
 }
 
 if (require.main === module) {
-    dbConnect();
+    // dbConnect();
     runServer();
 }
 
