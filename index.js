@@ -33,12 +33,12 @@ app.use(
     })
 );
 
+app.get('/', function(req, res) {
+    res.sendFile('./public/index.html', { root: __dirname });
+});
+
 app.use('/api/users', usersRouter);
 app.use('/api/auth', authRouter);
-
-app.get('/status', function(req, res){
-    res.sendFile('./public/index.html', {root: __dirname});
-});
 
 // Custom 404 Not Found route handler
 app.use((req, res, next) => {
@@ -70,7 +70,7 @@ function runServer(port = PORT) {
 }
 
 if (require.main === module) {
-    // dbConnect();
+    dbConnect();
     runServer();
 }
 
